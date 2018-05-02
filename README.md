@@ -1,35 +1,56 @@
 ﻿# AndPermission
-Simplify request run time permission process. AndPermission supports request permissions on Android 5.0 (Api Level 21) and higher, which will return success directly on systems that are lower than Android 5.0.
+Simplify the process of requesting run-time permissions. Simplify the process of installing applications on Android 7.0 and Android 8.0.
 
-1. Where to use ?
-* With Activity
-* With Fragment
-* With SupportFragment(In the support library)
-* With Context
+```java
+AndPermission.with(this)
+  .runtime()
+  .permission(Permission.Group.STORAGE)
+  .onGranted(new Action<List<String>>() {
+    @Override
+    public void onAction(List<String> data) {
+      // TODO write file.
+    }
+  })
+  .onDenied(new Action<List<String>>() {
+    @Override
+    public void onAction(List<String> data) {
+      // TODO something.
+    }
+  })
+  .start();
+```
 
-2. Multiple forms
-* Single permission
-* Single permission group
-* Multiple permissions
-* Multiple permission groups
+```java
+File apkFile = ...;
 
-For usage and other information see document: [English](http://yanzhenjie.github.io/AndPermission) | [中文](http://yanzhenjie.github.io/AndPermission/cn).
+AndPermission.with(this)
+  .install()
+  .file(apkFile)
+  .onGranted(new Action<File>() {
+    @Override
+    public void onAction(File data) {
+      // The user agrees to install.
+    }
+  })
+  .onDenied(new Action<File>() {
+      @Override
+      public void onAction(File data) {
+        // The user refused to install.
+      }
+  })
+  .start();
+```
+
+For more information please see document: [English](http://yanzhenjie.github.io/AndPermission) | [中文](http://yanzhenjie.github.io/AndPermission/cn).
 
 ## Download
 
 * Gradle
 ```
-implementation 'com.yanzhenjie:permission:2.0.0-rc4'
+implementation 'com.yanzhenjie:permission:2.0.0-rc5'
 ```
 
-* Maven
-```
-<dependency>
-  <groupId>com.yanzhenjie</groupId>
-  <artifactId>permission</artifactId>
-  <version>2.0.0-rc4</version>
-</dependency>
-```
+* [Download source code](https://github.com/yanzhenjie/AndPermission/releases/latest)
 
 AndPermission requires at minimum Java 7 or Android 4.0(Api level 14) .
 
@@ -38,6 +59,9 @@ If you are using ProGuard you might need to add the following options:
 ```
 -dontwarn com.yanzhenjie.permission.**
 ```
+
+## Contributing
+Before submitting pull requests, contributors must abide by the [agreement](CONTRIBUTING.md) .
 
 ## License
 ```text
